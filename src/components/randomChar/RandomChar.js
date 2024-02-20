@@ -5,6 +5,9 @@ import mjolnir from "../../resources/img/mjolnir.png";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
+const marvelService = new MarvelService();
+
+// marvelService.getAllCharacters().then(res => console.log(res)); // функція яка дає можливість передивитись що приходить з АПІ.
 class RandomChar extends Component {
   state = {
     char: {},
