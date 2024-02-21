@@ -27,7 +27,6 @@ class CharList extends Component {
     });
   };
 
-
   onError = () => {
     this.setState({
       loading: false,
@@ -57,13 +56,13 @@ const View = ({ charList }) => {
   const clazz = "char__item_selected";
   const elements = charList.map((item) => {
     const { id, name, thumbnail } = item;
-    let imgStyle = {'objectFit' : 'cover'};
+    let imgStyle = { 'objectFit': 'cover' };
     if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-        imgStyle = {'objectFit' : 'unset'};
+      imgStyle = { 'objectFit': 'unset' };
     }
     return (
       <li className={`char__item ${clazz}`} key={id} >
-        <img src={thumbnail} alt={name} style={imgStyle}/>
+        <img src={thumbnail} alt={name} style={imgStyle} />
         <div className="char__name">{name}</div>
       </li>
     );
