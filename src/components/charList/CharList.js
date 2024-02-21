@@ -34,11 +34,31 @@ class CharList extends Component {
     });
   };
 
+  onRenderList = (arr) => {
+    const elements = arr.map((item) => {
+      const { id, name, thumbnail } = item;
+      let imgStyle = { 'objectFit': 'cover' };
+      if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+        imgStyle = { 'objectFit': 'unset' };
+      }
+      return (
+        <li className={`char__item`} key={id} onClick={() => this.props.onCharSelected(id)}>
+          <img src={thumbnail} alt={name} style={imgStyle} />
+          <div className="char__name">{name}</div>
+        </li>
+      );
+    });
+    return <ul className="char__grid">{elements}</ul>;
+  }
+
   render() {
     const { charList, loading, error } = this.state;
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error) ? <View charList={charList} /> : null;
+
+    const items = this.onRenderList(charList);
+
+    const content = !(loading || error) ? items : null;
     return (
       <div className="char__list">
         {errorMessage}
@@ -52,22 +72,21 @@ class CharList extends Component {
   }
 }
 
-const View = ({ charList }) => {
-  const clazz = "char__item_selected";
-  const elements = charList.map((item) => {
-    const { id, name, thumbnail } = item;
-    let imgStyle = { 'objectFit': 'cover' };
-    if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-      imgStyle = { 'objectFit': 'unset' };
-    }
-    return (
-      <li className={`char__item ${clazz}`} key={id} onClick={() => this.props.onCharSelected(id)}>
-        <img src={thumbnail} alt={name} style={imgStyle} />
-        <div className="char__name">{name}</div>
-      </li>
-    );
-  });
-  return <ul className="char__grid">{elements}</ul>;
-};
+// const View = ({ charList }) => {
+//   const elements = charList.map((item) => {
+//     const { id, name, thumbnail } = item;
+//     let imgStyle = { 'objectFit': 'cover' };
+//     if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+//       imgStyle = { 'objectFit': 'unset' };
+//     }
+//     return (
+//       <li className={`char__item`} key={id} onClick={() => this.props.onCharSelected(id)}>
+//         <img src={thumbnail} alt={name} style={imgStyle} />
+//         <div className="char__name">{name}</div>
+//       </li>
+//     );
+//   });
+//   return <ul className="char__grid">{elements}</ul>;
+// };
 
 export default CharList;
