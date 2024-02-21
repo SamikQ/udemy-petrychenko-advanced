@@ -61,7 +61,7 @@ const View = ({ charList }) => {
       imgStyle = { 'objectFit': 'unset' };
     }
     return (
-      <li className={`char__item ${clazz}`} key={id} >
+      <li className={`char__item ${clazz}`} key={id} onClick={() => this.props.onCharSelected(id)}>
         <img src={thumbnail} alt={name} style={imgStyle} />
         <div className="char__name">{name}</div>
       </li>
