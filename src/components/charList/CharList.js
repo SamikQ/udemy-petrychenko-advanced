@@ -5,6 +5,8 @@ import MarvelService from "../../services/MarvelService";
 class CharList extends Component {
   state = {
     charList: [],
+    loading: true, 
+    error: false
   };
   
   marvelService = new MarvelService();
@@ -17,6 +19,7 @@ class CharList extends Component {
   onCharListLoaded = (charList) => {
     this.setState({
       charList,
+      loading: false
     });
   };
 
@@ -24,7 +27,15 @@ class CharList extends Component {
     console.log("update");
     this.marvelService
     .getAllCharacters()
-    .then(this.onCharListLoaded);
+    .then(this.onCharListLoaded)
+    .catch(this.onError);
+  };
+
+  onError = () => {
+    this.setState({
+      loading: false,
+      error: true,
+    });
   };
 
   render() {
@@ -33,7 +44,7 @@ class CharList extends Component {
     console.log(charList);
     return (
       <div className="char__list">
-        <View charList={charList} />
+        <View charList={charList}/>
         <button className="button button__main button__long">
           <div className="inner">load more</div>
         </button>
@@ -43,11 +54,13 @@ class CharList extends Component {
 }
 
 const View = ({ charList }) => {
+  const clazz = "char__item_selected";
+
   const elements = charList.map((item) => {
-    const { name, thumbnail } = item;
+    const { id, name, thumbnail } = item;
     return (
-      <li className="char__item">
-        <img src={thumbnail} alt="abyss" />
+      <li className={`char__item ${clazz}`} id={id}>
+        <img src={thumbnail} alt={name} />
         <div className="char__name">{name}</div>
       </li>
     );
