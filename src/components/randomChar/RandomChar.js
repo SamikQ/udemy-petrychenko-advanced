@@ -5,6 +5,9 @@ import mjolnir from "../../resources/img/mjolnir.png";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
+const marvelService = new MarvelService();
+
+// marvelService.getAllCharacters().then(res => console.log(res)); // функція яка дає можливість передивитись що приходить з АПІ.
 class RandomChar extends Component {
   state = {
     char: {},
@@ -16,11 +19,14 @@ class RandomChar extends Component {
 
   componentDidMount() {
     this.updateChar();
+<<<<<<< HEAD
     // this.timerId = setInterval(this.updateChar, 5000); // вмикати оновлення кожні 5 секунд. Необхідно потім вимикати в Хуці Unmount
   }
 
   componentWillUnmount() {
     clearInterval(this.timerId);
+=======
+>>>>>>> c87b5057ef74f83c2ba6c6f7d430cf712f87d6f1
   }
 
   onCharLoaded = (char) => {
@@ -50,6 +56,7 @@ class RandomChar extends Component {
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
     const content = !(loading || error) ? <View char={char} /> : null;
+
     return (
       <div className="randomchar">
         {errorMessage}
@@ -74,10 +81,21 @@ class RandomChar extends Component {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki } = char;
+  let imgStyle = {'objectFit' : 'cover'};
+  if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+      imgStyle = {'objectFit' : 'contain'};
+  }
 
   return (
     <div className="randomchar__block">
+<<<<<<< HEAD
       <img src={thumbnail} alt="Random character" className="randomchar__img" />
+=======
+      <img
+        src={thumbnail}
+        alt="Random character"
+        className="randomchar__img" style={imgStyle}/>
+>>>>>>> c87b5057ef74f83c2ba6c6f7d430cf712f87d6f1
       <div className="randomchar__info">
         <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">{description}</p>
