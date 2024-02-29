@@ -37,7 +37,9 @@ class CharInfo extends Component {
       .getCharacter(charId) // коли ми отримаємо відповідь від сервіса (в даному випадку один персонаж)
       .then(this.onCharLoaded) // він потрапить в onCharLoaded і запишеться в якості аргументу (char), який зазначений в самому методі
       .catch(this.onError); // відловлюємо можливі помилки, якщо вони будуть.
-  };
+  
+      this.foo.bar = 0;
+    };
 
   onCharLoaded = (char) => {
     // і тут зміниться состояние char
@@ -82,10 +84,14 @@ class CharInfo extends Component {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = char;
+  let imgStyle = { 'objectFit': 'cover' };
+  if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+    imgStyle = { 'objectFit': 'unset' };
+  }
   return (
     <>
       <div className="char__basics">
-        <img src={thumbnail} alt={name} />
+        <img src={thumbnail} alt={name} style={imgStyle} />
         <div>
           <div className="char__info-name">{name}</div>
           <div className="char__btns">
@@ -101,13 +107,20 @@ const View = ({ char }) => {
       <div className="char__descr">{description}</div>
       <div className="char__comics">Comics:</div>
       <ul className="char__comics-list">
-        {comics.map((item, i) => {
-          return (
-            <li key={i} className="char__comics-item">
-              {item.name}
-            </li>
-          );
-        })}
+        {comics.length === 0 ? ( // тернарним оператором робимо порівняння. Якщо в масив нічого не приходить, видаємо інформацію за замовченням
+          <li className="char__comics-item char__comics-item--empty">
+            Поки немає коміксів
+          </li>
+        ) : (
+          comics.slice(0, 5).map((item, i) => {
+            // виводимо тільки перші 5 елементів з масиву за допомогою slice(0, 5)
+            return (
+              <li key={i} className="char__comics-item">
+                {item.name}
+              </li>
+            );
+          })
+        )}
       </ul>
     </>
   );
