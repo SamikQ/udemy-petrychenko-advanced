@@ -1,5 +1,6 @@
 import "./charList.scss";
 import { Component } from "react";
+import PropTypes from 'prop-types';
 import MarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -10,7 +11,8 @@ class CharList extends Component {
     loading: true,
     error: false,
     newItemLoading: false,
-    offset: 210
+    offset: 210,
+    charEnded: false
   };
 
   marvelService = new MarvelService();
@@ -35,12 +37,17 @@ class CharList extends Component {
   };
 
   onCharListLoaded = (newCharList) => {
-    this.setState(({offset, charList }) => ({
+    let ended = false;
+    if (newCharList.length < 9) {
+      ended = true;
+    }
+    this.setState(({ offset, charList }) => ({
       // створюємо кол-бек функцію. В нас стейт залежить від попереднього стейта через довантаження нових персонажів.Це означає, що ми повертаємо обєкт з цієї функції
       charList: [...charList, ...newCharList], // беремо старий стейт чарліст s розгортаємо його, і додаємо новий масив НьюЧарЛіст
       loading: false,
       newItemLoading: false,
-      offset: offset + 9
+      offset: offset + 9,
+      charEnded: ended
     }));
   };
 
@@ -57,7 +64,7 @@ class CharList extends Component {
       let imgStyle = { objectFit: "cover" };
       if (
         item.thumbnail ===
-        "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
+        "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" || item.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif"
       ) {
         imgStyle = { objectFit: "unset" };
       }
@@ -76,7 +83,7 @@ class CharList extends Component {
   };
 
   render() {
-    const { charList, loading, error, offset, newItemLoading } = this.state;
+    const { charList, loading, error, offset, newItemLoading, charEnded } = this.state;
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
 
@@ -88,10 +95,11 @@ class CharList extends Component {
         {errorMessage}
         {spinner}
         {content}
-        <button 
-        className="button button__main button__long"
-        disabled={newItemLoading}
-        onClick={() => this.onRequest(offset)}>
+        <button
+          className="button button__main button__long"
+          disabled={newItemLoading}
+          style={{ 'display': charEnded ? 'none' : 'block' }}
+          onClick={() => this.onRequest(offset)}>
           <div className="inner">load more</div>
         </button>
       </div>
@@ -115,5 +123,10 @@ class CharList extends Component {
 //   });
 //   return <ul className="char__grid">{elements}</ul>;
 // };
+
+CharList.propTypes = {
+  onCharSelected: PropTypes.func.isRequired
+}
+
 
 export default CharList;

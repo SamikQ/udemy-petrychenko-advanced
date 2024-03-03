@@ -37,8 +37,6 @@ class CharInfo extends Component {
       .getCharacter(charId) // коли ми отримаємо відповідь від сервіса (в даному випадку один персонаж)
       .then(this.onCharLoaded) // він потрапить в onCharLoaded і запишеться в якості аргументу (char), який зазначений в самому методі
       .catch(this.onError); // відловлюємо можливі помилки, якщо вони будуть.
-  
-      this.foo.bar = 0;
     };
 
   onCharLoaded = (char) => {
@@ -85,7 +83,7 @@ class CharInfo extends Component {
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = char;
   let imgStyle = { 'objectFit': 'cover' };
-  if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+  if (thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" || thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif") {
     imgStyle = { 'objectFit': 'unset' };
   }
   return (
