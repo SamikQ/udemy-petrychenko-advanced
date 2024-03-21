@@ -4,6 +4,7 @@ import MarvelService from "../../services/MarvelService";
 import Skeleton from "../skeleton/Skeleton";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Spinner from "../spinner/Spinner";
+import PropTypes from 'prop-types';
 class CharInfo extends Component {
   state = {
     char: null,
@@ -122,6 +123,10 @@ const View = ({ char }) => {
       </ul>
     </>
   );
-};
+}
+
+CharInfo.propTypes = {  // перевірка типів даних, які приходять в обєкт
+  charId: PropTypes.object  // знаємо що приходить, і за допомогою PropTypes перевіряємо чи значення відповідає типу даних.
+}
 
 export default CharInfo;
