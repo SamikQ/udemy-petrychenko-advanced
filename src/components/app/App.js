@@ -9,6 +9,7 @@ import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 class App extends Component {
   state = {
     selectedChar: null,
+    char: null
   };
 
   onCharSelected = (id) => {
